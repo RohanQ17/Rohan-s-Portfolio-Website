@@ -335,6 +335,11 @@ h6 { font-size: 16px;}
 	justify-content: space-evenly;
 	background-color: var(--previewShadow);
 }
+.skills-list li {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
 
 .social-links{
 	display: grid;
