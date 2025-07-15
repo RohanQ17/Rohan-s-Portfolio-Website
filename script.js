@@ -46,7 +46,7 @@ function setTheme(mode) {
 // SOCIAL IMAGE SWITCHER
 // =======================
 window.addEventListener('DOMContentLoaded', () => {
-  const socialImages = ['images/Linkedin.png', 'images/Github.jpg'];
+  const socialImages = ['https://ucarecdn.com/05fc1e20-2aab-4680-8434-9be3b7f49d94/Linkedin.png', 'https://ucarecdn.com/37b97cf3-0efb-4808-9f8b-a47ef5149076/Github.jpg'];
   let currentImageIndex = 0;
   const socialImg = document.getElementById('social_img');
 
