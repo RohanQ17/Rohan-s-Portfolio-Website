@@ -69,3 +69,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setInterval(switchSocialImage, 5000);
 });
+// Fix iOS Safari scroll prevention on first touch
+if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    let firstTouch = true;
+    
+    document.addEventListener('touchstart', function(e) {
+        if (firstTouch) {
+            firstTouch = false;
+            // Prevent the initial scroll prevention
+            e.preventDefault();
+            setTimeout(() => {
+                firstTouch = true;
+            }, 100);
+        }
+    }, {passive: false});
+    
+    // Disable elastic scrolling bounce
+    document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1) {
+            e.preventDefault();
+        }
+    }, {passive: false});
+    
+    // Force proper scroll behavior after load
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            document.body.style.overflow = 'visible';
+            window.scrollTo(0, 1);
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 50);
+        }, 100);
+    });
+}
+
