@@ -70,36 +70,38 @@ window.addEventListener('DOMContentLoaded', () => {
   setInterval(switchSocialImage, 5000);
 });
 // Fix iOS Safari scroll prevention on first touch
-if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-    let firstTouch = true;
+// Optimized scroll animation observer
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if device supports smooth animations
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth <= 768;
     
-    document.addEventListener('touchstart', function(e) {
-        if (firstTouch) {
-            firstTouch = false;
-            // Prevent the initial scroll prevention
-            e.preventDefault();
-            setTimeout(() => {
-                firstTouch = true;
-            }, 100);
-        }
-    }, {passive: false});
+    if (prefersReducedMotion || isMobile) {
+        // Skip animations on mobile or if user prefers reduced motion
+        const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-left, .animate-right');
+        animatedElements.forEach(el => {
+            el.classList.add('animated');
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+        });
+        return;
+    }
     
-    // Disable elastic scrolling bounce
-    document.addEventListener('touchmove', function(e) {
-        if (e.touches.length > 1) {
-            e.preventDefault();
-        }
-    }, {passive: false});
-    
-    // Force proper scroll behavior after load
-    window.addEventListener('load', function() {
-        setTimeout(() => {
-            document.body.style.overflow = 'visible';
-            window.scrollTo(0, 1);
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-            }, 50);
-        }, 100);
-    });
-}
+    // Desktop animation observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-left, .animate-right');
+    animatedElements.forEach(el => observer.observe(el));
+});
 

@@ -774,3 +774,27 @@ h6 { font-size: 16px;}
 		font-size: 32px;
 	}
 }
+/* Better mobile touch handling */
+@media screen and (max-width: 768px) {
+    .theme-dot,
+    .linktree-button,
+    .social-link {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    }
+}
+/* Responsive typing effect */
+.greeting-wrapper h1 {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid var(--mainText);
+}
+
+/* Only animate on larger screens */
+@media screen and (min-width: 768px) {
+    .greeting-wrapper h1 {
+        animation: typing 2s steps(20, end), blink 1s infinite;
+    }
+}
+
+/* Mobile version - no animation */
