@@ -791,10 +791,6 @@ h6 { font-size: 16px;}
 }
 
 /* Only animate on larger screens */
-@media screen and (min-width: 768px) {
-    .greeting-wrapper h1 {
-        animation: typing 2s steps(20, end), blink 1s infinite;
-    }
-}
+
 
 /* Mobile version - no animation */
