@@ -69,8 +69,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   setInterval(switchSocialImage, 5000);
 });
-// Fix iOS Safari scroll prevention on first touch
-// Optimized scroll animation observer
+
+// =======================
+// ANIMATION HANDLING
+// =======================
 document.addEventListener('DOMContentLoaded', function() {
     // Check if device supports smooth animations
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -87,7 +89,24 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    // Desktop animation observer
+    // Auto-animate Work Experience section on page load
+    const workExperienceSection = document.querySelector('section:nth-of-type(2)'); // Second section is Work Experience
+    const workExperienceCards = workExperienceSection.querySelectorAll('.experience-card');
+    const workExperienceTitle = workExperienceSection.querySelector('h3');
+    
+    // Animate work experience elements with delay
+    setTimeout(() => {
+        workExperienceSection.classList.add('animated');
+        workExperienceTitle.classList.add('animated');
+    }, 800);
+    
+    workExperienceCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('animated');
+        }, 1200 + (index * 300)); // Stagger each card by 300ms
+    });
+    
+    // Desktop scroll animation observer for other sections
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -95,13 +114,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            // Skip Work Experience section elements as they auto-animate
+            const isWorkExperienceElement = entry.target.closest('section:nth-of-type(2)');
+            
+            if (entry.isIntersecting && !isWorkExperienceElement) {
                 entry.target.classList.add('animated');
             }
         });
     }, observerOptions);
 
+    // Observe all elements except those in Work Experience section
     const animatedElements = document.querySelectorAll('.animate-on-scroll, .animate-left, .animate-right');
-    animatedElements.forEach(el => observer.observe(el));
+    animatedElements.forEach(el => {
+        const isWorkExperienceElement = el.closest('section:nth-of-type(2)');
+        if (!isWorkExperienceElement) {
+            observer.observe(el);
+        }
+    });
 });
 
